@@ -1,7 +1,7 @@
 <!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GEboxing</title>
 <body style="margin:0;font-family:system-ui,sans-serif;background:#fff;color:#111;display:grid;place-items:center;min-height:100vh">Cargando GEboxing…
 <script>
-(async()=>{let n="geboxing-20261104-2200.html";
+(async()=>{let n="geboxing-20261104-2230.html";
 try{const r=await fetch("https://api.github.com/repos/geboxingmx/geboxingmx.github.io/contents/");const j=await r.json();
 const L=j.map(f=>f.name).filter(x=>/^geboxing-\d{8}-\d{4}\.html$/.test(x)).sort();if(L.length)n=L[L.length-1];}catch(e){}
 try{const h=await (await fetch(n,{cache:"no-cache"})).text();document.open();document.write(h);document.close();}catch(e){location.replace(n+location.hash);}})();
