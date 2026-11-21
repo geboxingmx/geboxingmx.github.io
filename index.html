@@ -1171,7 +1171,7 @@ body.sheet-on .buybar{transform:translateY(115%)}
   </div>
 </div>
 
-<p class="ver" id="siteVer">Versión: 21 nov 2026 · 12:46 p. m.</p>
+<p class="ver" id="siteVer">Versión: 21 nov 2026 · 12:54 p. m.</p>
 <div class="buybar" id="buybar" hidden>
   <div class="buybar-in">
     <div class="bb-price"><small>Tu total</small><b id="bbTotal">$2,190</b><span class="bb-eta" id="bbEta"></span></div>
@@ -3222,7 +3222,7 @@ kRender();
     $r("rsImgs").innerHTML=urls.map((u,i)=>`<figure><img src="${u}" alt="${o.files[i].name}"><figcaption>${o.files[i].name}</figcaption></figure>`).join("");
     $r("rsWa").href="https://wa.me/"+waNum()+"?text="+encodeURIComponent("Hola GEboxing, te envío las hojas de mi pedido "+o.folio+" (las adjunto en imágenes).");$r("rsWa").hidden=true;}
   async function refresh(){L=await all();const b=$r("rsBar");if(!L.length){b.hidden=true;return;}
-    $r("rsFolio").textContent=L[0].folio;b.hidden=sessionStorage.getItem("rsHide")==="1";
+    $r("rsFolio").textContent=L[0].folio;let hd=false;try{hd=sessionStorage.getItem("rsHide")==="1";}catch(e){}b.hidden=hd;
     $r("rsSel").innerHTML=L.map(o=>`<option value="${o.folio}">${o.kind} · ${o.folio} · ${new Date(o.ts).toLocaleDateString("es-MX",{day:"numeric",month:"short"})}</option>`).join("");$r("rsSel").hidden=L.length<2;}
   window.gbxOpenResend=async()=>{await refresh();if(!L.length)return;show(L[0]);$r("rsModal").hidden=false;};
   $r("rsOpen").onclick=window.gbxOpenResend;
