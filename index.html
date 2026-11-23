@@ -6,6 +6,7 @@
 <meta name="description" content="Diseña tus guantes de box GEboxing: colores, peso, etiqueta y tu nombre o logo. Hechos a mano en México. Envío gratis a todo México.">
 <meta name="theme-color" content="#c8102e">
 <style>*,*::before,*::after{box-sizing:border-box}:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html,body{margin:0}body{font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<style id="logocss">.logo-up{display:grid;gap:6px;margin:6px 0 4px}.logo-btn{display:flex;align-items:center;gap:12px;padding:14px 16px;border:2px dashed #c8102e;border-radius:12px;background:rgba(200,16,46,.06);cursor:pointer;color:var(--ink)}.logo-btn>span:first-child{font-size:1.8rem}.logo-btn b{display:block;font-size:1.05rem}.logo-btn small{display:block;font-size:.8rem;color:var(--muted,#666)}.logo-bg{font-size:.85rem;display:flex;gap:8px;flex-wrap:wrap;align-items:center}</style>
 <style id="estcss">.fin-est{display:grid;gap:6px}.fin-est .estb{font:inherit;font-weight:700;text-align:left;padding:11px 12px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);cursor:pointer}.fin-est .estb[aria-checked=true]{border-color:#c8102e;background:#c8102e;color:#fff}.fin-est.bad{outline:2px solid #c8102e;outline-offset:2px;border-radius:8px}</style>
 <style id="onebtncss">#finBuy .bn-t{display:flex;flex-direction:column;align-items:flex-start;line-height:1.05}#finBuy .bn-t small{font-size:.5em;letter-spacing:.02em;font-family:inherit;opacity:.95;margin-top:4px}</style>
 <style id="rscss">.rs-bar{position:fixed;top:0;left:0;right:0;z-index:9990;box-shadow:0 4px 14px rgba(0,0,0,.25);display:flex;align-items:center;gap:8px;flex-wrap:nowrap;padding:8px 10px 8px 16px;background:#1f7a45;color:#fff;font-size:.82rem;line-height:1.25}.rs-bar span{flex:1;min-width:0}.rs-bar button{white-space:nowrap;font-size:.85rem}.rs-bar button{font:inherit;font-weight:800;border:0;border-radius:8px;padding:8px 12px;background:#fff;color:#1f7a45;cursor:pointer}.rs-bar .rs-x{background:transparent;color:#fff;font-size:1.3rem;padding:2px 8px}.rs-modal{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.55);display:grid;place-items:center;padding:16px}.rs-modal[hidden]{display:none}.rs-box{position:relative;width:min(560px,100%);max-height:92dvh;overflow:auto;background:#fff;color:#141414;border-radius:16px;padding:20px;display:grid;gap:10px}.rs-box h3{margin:0;font-size:1.3rem}.rs-close{position:absolute;top:10px;right:12px;border:0;background:#eee;border-radius:50%;width:36px;height:36px;font-size:1.3rem;cursor:pointer}.rs-small{margin:0;font-size:.9rem;color:#444}.rs-imgs{display:grid;grid-template-columns:1fr 1fr;gap:8px}.rs-imgs figure{margin:0}.rs-imgs img{width:100%;border:1px solid #ddd;border-radius:8px}.rs-imgs figcaption{font-size:.7rem;color:#666;word-break:break-all}.rs-btns{display:grid;gap:8px}.rs-go,.rs-wa,.rs-dl{font:inherit;font-weight:800;font-size:1rem;text-align:center;text-decoration:none;padding:13px;border-radius:10px;border:0;cursor:pointer}.rs-go{background:#141414;color:#fff}.rs-wa{background:#25d366;color:#fff}.rs-dl{background:#f1f1f1;color:#141414}.rs-del{font:inherit;font-size:.85rem;border:0;background:none;color:#888;text-decoration:underline;cursor:pointer}#rsSel{font:inherit;padding:10px;border-radius:8px;border:1px solid #ccc}</style>
@@ -835,7 +836,10 @@ body.sheet-on .buybar{transform:translateY(115%)}
       <div class="sheet stamp-sheet" id="ssheet" role="dialog" aria-labelledby="sst" aria-hidden="true">
         <div class="sheet-head"><b id="sst">Tu nombre o logo</b><button class="close" id="sclose" type="button" aria-label="Cerrar">×</button></div>
         <p class="eta-warn">⏱ Sin nombre ni logo tus guantes salen en <b>23 a 27 días hábiles</b>. Con estampado tardan <b>25 a 33 días hábiles</b> y cuestan <b>+$150</b>.</p>
-        <p class="snote" id="snote">Puedes poner <b>un nombre o un logo</b>, no los dos. Si tu logo lleva nombre, súbelo completo en una sola imagen PNG.</p>
+        <div class="logo-up"><label class="logo-btn" for="upl"><span aria-hidden="true">📷</span><span><b>Subir mi logo</b><small>Foto o imagen de tu galería (JPG, PNG o captura)</small></span></label>
+          <input type="file" id="upl" accept="image/*" hidden>
+          <div class="logo-bg" id="logoBg" hidden><span id="logoBgT"></span><button type="button" class="tlink" id="logoBgBtn"></button></div></div>
+        <p class="snote" id="snote">Puedes poner <b>un nombre o un logo</b>, no los dos. Si tu logo lleva nombre, súbelo completo en una sola imagen.</p>
         <p class="snote">El nombre va igual en los dos guantes. ¿Quieres un nombre diferente en cada guante? Pídelo directo al taller por WhatsApp.</p>
         <div class="dual" id="dualBox">
           <span class="dual-t">¿Qué nombre llevan tus guantes?</span>
@@ -844,8 +848,6 @@ body.sheet-on .buybar{transform:translateY(115%)}
         <span class="glab" id="labL" hidden>🥊 Guante izquierdo</span>
         <div class="srow">
           <input type="text" id="txtIn" maxlength="16" placeholder="NOMBRE" autocomplete="off" aria-label="Nombre (arriba)">
-          <label class="act sm" for="upl">Subir logo PNG</label>
-          <input type="file" id="upl" accept="image/png,.png" hidden>
         </div>
         <div class="srow"><input type="text" id="txtIn2" maxlength="16" placeholder="APELLIDO (abajo, opcional)" autocomplete="off" aria-label="Apellido (abajo, opcional)">
           <label class="caps" for="caps"><input type="checkbox" id="caps" checked> MAYÚSCULAS</label></div>
@@ -972,7 +974,7 @@ body.sheet-on .buybar{transform:translateY(115%)}
         </section>
         <section class="k-step" data-kpane="2" id="kPName"><h3>Nombre o logo <b class="k-x">+$150</b></h3>
           <p class="k-note k-warn" id="kStampWarn" hidden></p>
-          <div class="k-row"><input id="kTxt" maxlength="14" placeholder="TU NOMBRE" autocomplete="off" aria-label="Nombre para la concha"><label class="act" for="kLogoIn">Subir logo PNG</label><input type="file" id="kLogoIn" accept="image/png,image/*" hidden></div>
+          <div class="k-row"><input id="kTxt" maxlength="14" placeholder="TU NOMBRE" autocomplete="off" aria-label="Nombre para la concha"><label class="act" for="kLogoIn">📷 Subir mi logo</label><input type="file" id="kLogoIn" accept="image/*" hidden></div>
           <div id="kLogoBox" class="k-note" hidden>Logo cargado. <button type="button" class="tlink" id="kLogoRm">Quitar logo</button></div>
           <div class="k-move" id="kMove"><span class="k-lbl">Muévelo y cambia el tamaño</span><p class="k-note">👆 <b>Arrastra tu nombre o logo</b> sobre la concha para ponerlo donde quieras. Para el tamaño usa la barra o pellizca con dos dedos.</p><div class="k-row k-szrow"><span aria-hidden="true">A</span><input type="range" id="kSz" min="50" max="220" step="5" value="100" aria-label="Tamaño del nombre o logo"><span aria-hidden="true" style="font-size:1.4em">A</span><button type="button" class="tlink" id="kSpReset">Centrar</button></div></div>
           <span class="k-lbl">¿En qué lado?</span>
@@ -1171,7 +1173,7 @@ body.sheet-on .buybar{transform:translateY(115%)}
   </div>
 </div>
 
-<p class="ver" id="siteVer">Versión: 23 nov 2026 · 1:33 p. m.</p>
+<p class="ver" id="siteVer">Versión: 23 nov 2026 · 5:12 p. m.</p>
 <div class="buybar" id="buybar" hidden>
   <div class="buybar-in">
     <div class="bb-price"><small>Tu total</small><b id="bbTotal">$2,190</b><span class="bb-eta" id="bbEta"></span></div>
@@ -2088,11 +2090,41 @@ function focusArea(){const s=(AREAS[model]||[])[imgPos?imgPos.a:sArea];if(!s)ret
 function closeStamp(){const ss=$("#ssheet");ss.classList.remove("open");ss.setAttribute("aria-hidden","true");zoomer.style.transform="";}
 $("#sclose").addEventListener("click",closeStamp);
 $("#zoneColor").addEventListener("click",()=>{const z=sZone,t=sTap;closeStamp();if(z&&t)openZone(z,t[0],t[1]);});
-$("#upl").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;
-  if(f.type!=="image/png"&&!/\.png$/i.test(f.name)){$("#snote").textContent="El logo debe ser una imagen PNG. Si lleva nombre, súbelo ya incluido en la misma imagen.";$("#snote").classList.add("warn");return;}
-  $("#snote").classList.remove("warn");
-  const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{setLogo(im,f.name);$("#snote").innerHTML="Tu logo reemplazó al nombre. Para usar un nombre, toca <b>Quitar</b>.";$("#txtIn").value="";$("#txtIn2").value="";$("#txtR").value="";$("#txtR2").value="";updDualUI();txt.s="";txt.s2="";txt.r="";txt.r2="";txt.dual=false;txt.view="L";imgPos=null;placeImg();updStamp();draw();summary();typeKey(true);focusArea();};im.src=rd.result;};rd.readAsDataURL(f);e.target.value="";});
-$("#rmImg").addEventListener("click",()=>{$("#logoFin").hidden=true;LOGO=null;$("#snote").innerHTML="Puedes poner <b>un nombre o un logo</b>, no los dos. Si tu logo lleva nombre, súbelo completo en una sola imagen PNG.";$("#snote").classList.remove("warn");IMG=null;imgPos=null;txt.s="";txt.s2="";txt.r="";txt.r2="";txt.dual=false;txt.view="L";$("#txtIn").value="";$("#txtIn2").value="";$("#txtR").value="";$("#txtR2").value="";updDualUI();updStamp();draw();summary();});
+/* prepara cualquier imagen del cliente: la achica, y si tiene fondo liso (blanco u otro) se lo quita */
+function prepLogo(file,cb,err){const rd=new FileReader();rd.onerror=()=>err&&err();rd.onload=()=>{const im=new Image();im.onerror=()=>err&&err();im.onload=()=>{try{
+    const M=1200,k=Math.min(1,M/Math.max(im.naturalWidth,im.naturalHeight)),w=Math.max(1,Math.round(im.naturalWidth*k)),h=Math.max(1,Math.round(im.naturalHeight*k));
+    const c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d");x.drawImage(im,0,0,w,h);const orig=c.toDataURL("image/png");
+    const d=x.getImageData(0,0,w,h),a=d.data;let trans=0;for(let i=3;i<a.length;i+=16)if(a[i]<250)trans++;
+    let out=orig,removed=false;
+    if(trans<(a.length/16)*0.02){/* sin transparencia: revisa si el borde es de un solo color */
+      const E=[];for(let x0=0;x0<w;x0+=Math.max(1,w>>6)){E.push(x0,0);E.push(x0,h-1);}for(let y0=0;y0<h;y0+=Math.max(1,h>>6)){E.push(0,y0);E.push(w-1,y0);}
+      let r=0,g=0,b=0,n=0;for(let i=0;i<E.length;i+=2){const p=(E[i+1]*w+E[i])*4;r+=a[p];g+=a[p+1];b+=a[p+2];n++;}r/=n;g/=n;b/=n;
+      let ok=0;for(let i=0;i<E.length;i+=2){const p=(E[i+1]*w+E[i])*4;if(Math.abs(a[p]-r)+Math.abs(a[p+1]-g)+Math.abs(a[p+2]-b)<60)ok++;}
+      if(ok/n>0.85){const T=70,seen=new Uint8Array(w*h),q=[];const near=p=>Math.abs(a[p]-r)+Math.abs(a[p+1]-g)+Math.abs(a[p+2]-b)<T;
+        for(let x0=0;x0<w;x0++){q.push(x0,(h-1)*w+x0);}for(let y0=0;y0<h;y0++){q.push(y0*w,y0*w+w-1);}
+        while(q.length){const i=q.pop();if(seen[i])continue;seen[i]=1;if(!near(i*4))continue;a[i*4+3]=0;const xx=i%w,yy=(i/w)|0;
+          if(xx>0)q.push(i-1);if(xx<w-1)q.push(i+1);if(yy>0)q.push(i-w);if(yy<h-1)q.push(i+w);}
+        /* suaviza la orilla */
+        for(let i=0;i<w*h;i++){if(a[i*4+3]===0)continue;const xx=i%w,yy=(i/w)|0;let z=0;if(xx>0&&a[(i-1)*4+3]===0)z++;if(xx<w-1&&a[(i+1)*4+3]===0)z++;if(yy>0&&a[(i-w)*4+3]===0)z++;if(yy<h-1&&a[(i+w)*4+3]===0)z++;
+          if(z){const dd=Math.abs(a[i*4]-r)+Math.abs(a[i*4+1]-g)+Math.abs(a[i*4+2]-b);if(dd<T*1.8)a[i*4+3]=Math.min(a[i*4+3],Math.round(255*Math.max(.25,(dd-T)/(T*.8))));}}
+        x.putImageData(d,0,0);out=c.toDataURL("image/png");removed=true;}}
+    /* recorta lo que sobra alrededor */
+    const crop=u=>new Promise(res=>{const j=new Image();j.onload=()=>{const cc=document.createElement("canvas");cc.width=j.width;cc.height=j.height;const xc=cc.getContext("2d");xc.drawImage(j,0,0);const D=xc.getImageData(0,0,cc.width,cc.height).data;
+      let x0=cc.width,y0=cc.height,x1=-1,y1=-1;for(let yy=0;yy<cc.height;yy++)for(let xx=0;xx<cc.width;xx++)if(D[(yy*cc.width+xx)*4+3]>20){if(xx<x0)x0=xx;if(xx>x1)x1=xx;if(yy<y0)y0=yy;if(yy>y1)y1=yy;}
+      if(x1<0){res(u);return;}const p=4;x0=Math.max(0,x0-p);y0=Math.max(0,y0-p);x1=Math.min(cc.width-1,x1+p);y1=Math.min(cc.height-1,y1+p);
+      const o=document.createElement("canvas");o.width=x1-x0+1;o.height=y1-y0+1;o.getContext("2d").drawImage(cc,-x0,-y0);res(o.toDataURL("image/png"));};j.src=u;});
+    crop(out).then(u=>cb({url:u,orig,removed}));
+  }catch(e){err&&err();}};im.src=rd.result;};rd.readAsDataURL(file);}
+let LOGO_SRC=null;window.prepLogo=prepLogo;
+function useLogoURL(u,name){const im=new Image();im.onload=()=>{setLogo(im,name);$("#snote").innerHTML="Tu logo reemplazó al nombre. Para usar un nombre, toca <b>Quitar</b>.";$("#txtIn").value="";$("#txtIn2").value="";$("#txtR").value="";$("#txtR2").value="";updDualUI();txt.s="";txt.s2="";txt.r="";txt.r2="";txt.dual=false;txt.view="L";imgPos=null;placeImg();updStamp();draw();summary();typeKey(true);focusArea();};im.src=u;}
+function logoBgUI(){const b=$("#logoBg");if(!LOGO_SRC||!LOGO_SRC.removed){b.hidden=true;return;}b.hidden=false;
+  $("#logoBgT").textContent=LOGO_SRC.useOrig?"Se dejó el fondo de tu imagen.":"✓ Le quitamos el fondo a tu logo.";$("#logoBgBtn").textContent=LOGO_SRC.useOrig?"Quitar el fondo":"Dejar el fondo original";}
+$("#logoBgBtn").addEventListener("click",()=>{if(!LOGO_SRC)return;LOGO_SRC.useOrig=!LOGO_SRC.useOrig;useLogoURL(LOGO_SRC.useOrig?LOGO_SRC.orig:LOGO_SRC.url,LOGO_SRC.name);logoBgUI();});
+$("#upl").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];e.target.value="";if(!f)return;
+  $("#snote").classList.remove("warn");$("#snote").textContent="Cargando tu logo…";
+  prepLogo(f,r=>{LOGO_SRC=Object.assign(r,{name:f.name||"logo",useOrig:false});useLogoURL(r.url,LOGO_SRC.name);logoBgUI();},
+    ()=>{$("#snote").innerHTML="No pudimos abrir esa imagen. Toma una <b>captura de pantalla</b> de tu logo y súbela, o mándalo por WhatsApp.";$("#snote").classList.add("warn");});});
+$("#rmImg").addEventListener("click",()=>{$("#logoFin").hidden=true;LOGO=null;LOGO_SRC=null;$("#logoBg").hidden=true;$("#snote").innerHTML="Puedes poner <b>un nombre o un logo</b>, no los dos. Si tu logo lleva nombre, súbelo completo en una sola imagen.";$("#snote").classList.remove("warn");IMG=null;imgPos=null;txt.s="";txt.s2="";txt.r="";txt.r2="";txt.dual=false;txt.view="L";$("#txtIn").value="";$("#txtIn2").value="";$("#txtR").value="";$("#txtR2").value="";updDualUI();updStamp();draw();summary();});
 const FONTS=[
   {id:"anton",name:"ANTON",css:"'Anton', Impact, sans-serif"},
   {id:"bebas",name:"BEBAS",css:"'Bebas Neue', Impact, sans-serif"},
@@ -3028,7 +3060,8 @@ document.getElementById("v-concha").addEventListener("click",e=>{const t=e.targe
   else return;
   kRender();});
 $k("kTxt").addEventListener("input",e=>{K.txt=e.target.value;if(K.txt)K.logo=null;clearTimeout(K._t);K._t=setTimeout(kRender,120);});
-$k("kLogoIn").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{K.logo=r.result;K.txt="";$k("kTxt").value="";kRender();hint("✓ Logo cargado.","good");};r.readAsDataURL(f);e.target.value="";});
+$k("kLogoIn").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];e.target.value="";if(!f)return;hint("Cargando tu logo…");
+  window.prepLogo(f,r=>{K.logo=r.url;K.txt="";$k("kTxt").value="";kRender();hint(r.removed?"✓ Logo cargado y sin fondo.":"✓ Logo cargado.","good");},()=>hint("No pudimos abrir esa imagen. Sube una captura de pantalla de tu logo.","bad"));});
 /* datos de envío (mismas reglas que en guantes) */
 $k("k_edo").innerHTML='<option value="">Elige tu estado</option>'+EDOS.map(([n])=>`<option>${n}</option>`).join("");
 const KF=["k_nom","k_tel","k_calle","k_col","k_cp","k_edo","k_cd","k_ref"],kv=id=>($k(id).value||"").trim();
