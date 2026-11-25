@@ -6,6 +6,7 @@
 <meta name="description" content="Diseña tus guantes de box GEboxing: colores, peso, etiqueta y tu nombre o logo. Hechos a mano en México. Envío gratis a todo México.">
 <meta name="theme-color" content="#c8102e">
 <style>*,*::before,*::after{box-sizing:border-box}:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html,body{margin:0}body{font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<style id="savecss">.planb.saved{border-color:#1f7a45}.planb.saved h4{color:#1f7a45}</style>
 <style id="cdcss">.wel-cd{margin:12px 0 6px;padding:14px 10px;border-radius:14px;background:#141414;color:#fff;text-align:center}.wel-cd small{display:block;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;opacity:.85;margin-bottom:6px}.cd-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.cd-row span{display:flex;flex-direction:column;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;opacity:.95}.cd-row b{font-family:"Barlow Condensed","Anton",Impact,sans-serif;font-size:2.3rem;line-height:1;color:#ff3b55}</style>
 <style id="cerrcss">.cupo.closed{background:#141414;color:#fff;border-color:#141414}.cupo.closed b,.cupo.closed span{color:#fff}.wel-live.closed{background:#141414;color:#fff}.fin-closed{margin:8px 0;padding:12px 14px;border-radius:10px;background:#141414;color:#fff;font-size:.95rem;line-height:1.35}</style>
 <style id="logocss">.logo-up{display:grid;gap:6px;margin:6px 0 4px}.logo-btn{display:flex;align-items:center;gap:12px;padding:14px 16px;border:2px dashed #c8102e;border-radius:12px;background:rgba(200,16,46,.06);cursor:pointer;color:var(--ink)}.logo-btn>span:first-child{font-size:1.8rem}.logo-btn b{display:block;font-size:1.05rem}.logo-btn small{display:block;font-size:.8rem;color:var(--muted,#666)}.logo-bg{font-size:.85rem;display:flex;gap:8px;flex-wrap:wrap;align-items:center}</style>
@@ -1123,7 +1124,7 @@ body.sheet-on .buybar{transform:translateY(115%)}
       <p class="fin-big">¡Último paso! Envía tu pedido por WhatsApp.</p>
       <ul class="fin-rev" id="finRev"></ul>
       <p class="fin-closed" id="finClosed" hidden></p>
-      <ol class="fin-how"><li>Toca el botón verde: <b>tus hojas ya van adjuntas</b>.</li><li>Elige <b>WhatsApp</b> y el chat de <b>GEboxing</b>.</li><li>Toca <b>Enviar</b>. Después te pedimos tus datos de envío.</li></ol>
+      <ol class="fin-how" id="finHow"><li>Toca el botón verde: <b>tus hojas ya van adjuntas</b>.</li><li>Elige <b>WhatsApp</b> y el chat de <b>GEboxing</b>.</li><li>Toca <b>Enviar</b>. Después te pedimos tus datos de envío.</li></ol>
       <a class="act primary buy-now" id="finBuy" href="#" role="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.1-4.7-4-4.8-4.2-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 .9c.3.1.5.2.5.4.1.1.1.7-.1 1.3z"/></svg><span class="bn-t"><span id="buyT1">Comprar ahora</span><small id="buyT2">y enviar mis hojas a GEboxing</small></span></a>
       <button type="button" class="act fin-next" id="finToShip" data-fgo="2" hidden>Ya envié mi pedido · llenar datos de envío ›</button>
       <p class="fin-small pay-proof">💳 Después de pagar, <b>envía tu comprobante de pago</b> por WhatsApp y <b>espera la confirmación del taller GEboxing</b>. Tu pedido empieza cuando te confirmamos.</p>
@@ -1136,6 +1137,13 @@ body.sheet-on .buybar{transform:translateY(115%)}
         <p class="fin-small">💾 Tus hojas quedaron guardadas en este celular por si necesitas reenviarlas.</p>
         <p class="fin-small">Abre WhatsApp y revisa que en el chat de <b>GEboxing (351 209 6269)</b> aparezcan <b>tus imágenes</b> (Hoja 1 y Hoja 2), no solo el texto.</p>
         <div class="pb-btns"><button type="button" class="act primary" id="sentYes">Sí, ya se ven mis hojas en el chat</button><button type="button" class="act" id="sentNo">No llegaron · volver a enviar mis hojas</button><button type="button" class="tlink" id="sentNoChat">No encuentro el chat de GEboxing</button></div>
+      </div>
+      <div class="planb saved" id="savedBox" hidden>
+        <h4>✓ Tus hojas están listas</h4>
+        <p class="fin-small"><b>Guárdalas en tu galería</b> con el botón verde. En iPhone elige <b>"Guardar imágenes"</b>. También puedes <b>mantener presionada</b> cada hoja y tocar <b>"Guardar imagen"</b>.</p>
+        <div class="pb-imgs" id="svImgs"></div>
+        <div class="pb-btns"><button type="button" class="pb-wa" id="svSave">Guardar mis hojas en la galería</button><button type="button" class="pb-dl" id="svDl">Descargar mis hojas</button></div>
+        <p class="fin-closed" id="svWhen"></p>
       </div>
       <div class="planb" id="planB" hidden>
         <h4>Envía tu pedido en 3 pasos</h4>
@@ -1176,7 +1184,7 @@ body.sheet-on .buybar{transform:translateY(115%)}
   </div>
 </div>
 
-<p class="ver" id="siteVer">Versión: 25 nov 2026 · 2:21 p. m.</p>
+<p class="ver" id="siteVer">Versión: 25 nov 2026 · 2:51 p. m.</p>
 <div class="buybar" id="buybar" hidden>
   <div class="buybar-in">
     <div class="bb-price"><small>Tu total</small><b id="bbTotal">$2,190</b><span class="bb-eta" id="bbEta"></span></div>
@@ -2700,6 +2708,16 @@ function showPlanB(f){const box=$("#planB");box.hidden=false;if(IN_APP){$("#pbIa
   $("#pbWa").hidden=true;$("#pbDl").onclick=()=>{(f||[]).forEach((x,i)=>setTimeout(()=>dlBlob(x,x.name),i*600));setTimeout(()=>{$("#pbWa").hidden=false;},800);};
   $("#pbImgs").onclick=()=>{setTimeout(()=>{$("#pbWa").hidden=false;},1500);};
   $("#finToShip").hidden=false;setTimeout(()=>box.scrollIntoView({block:"start",behavior:"smooth"}),200);}
+const IS_IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+async function saveToGallery(files,dl){if(!files||!files.length)return false;
+  if(!IN_APP&&navigator.canShare&&navigator.canShare({files})){try{await navigator.share({files,title:"Mis hojas GEboxing"});return true;}catch(e){if(e&&e.name==="AbortError")return false;}}
+  files.forEach((x,i)=>setTimeout(()=>dl(x,x.name),i*600));return true;}
+window.saveToGallery=saveToGallery;
+function showSaved(f){const box=$("#savedBox");box.hidden=false;const names=["Hoja 1 · Diseño","Hoja 2 · Costo"].concat(STAMPS.map(t=>"Estampado · "+t.title)),urls=[finURL,finURL2].concat(STAMPURLS);
+  $("#svImgs").innerHTML=urls.map((u,i)=>`<figure><img src="${u}" alt="${names[i]}"><figcaption>${names[i]} — mantén presionada para guardarla</figcaption></figure>`).join("");
+  $("#svWhen").innerHTML=`📅 <b>El ${abreTxt()}</b> mándalas por WhatsApp al <b>351 209 6269</b> (clip 📎 → Galería), o vuelve a esta página y toca <b>"Enviar mis hojas"</b> arriba. Tu lugar se aparta en el orden en que lleguen.`;
+  $("#svSave").onclick=()=>saveToGallery(f,dlBlob);$("#svDl").onclick=()=>{(f||[]).forEach((x,i)=>setTimeout(()=>dlBlob(x,x.name),i*600));};
+  setTimeout(()=>box.scrollIntoView({block:"start",behavior:"smooth"}),200);}
 $("#finBuy").addEventListener("click",async e=>{e.preventDefault();
   if(!shipCheck(true))return;
   if(!PAY){$("#payErr").textContent="Elige tu forma de pago: meses sin intereses o 50% para iniciar.";document.querySelectorAll("[data-pay]").forEach(b=>b.classList.add("bad"));
@@ -2709,6 +2727,7 @@ $("#finBuy").addEventListener("click",async e=>{e.preventDefault();
   let f=SHEETS;if(!f){try{f=await sheetFiles();}catch(_){f=null;}}
   const ss=$("#sendSheets");ss.hidden=true;$("#sentChk").hidden=true;
   try{if(f&&window.gbxSaveOrder)gbxSaveOrder({folio:FOLIO,kind:"Guantes",files:f,text:shareMessage(),wa:waMessage()});}catch(_){}
+  if(bloqueado()){showSaved(f);if(f&&IS_IOS)saveToGallery(f,dlBlob);else (f||[]).forEach((x,i)=>setTimeout(()=>dlBlob(x,x.name),i*600));return;}
   if(IN_APP){showPlanB(f);return;}
   if(f&&navigator.canShare&&navigator.canShare({files:f})){
     try{await navigator.share({files:f,text:shareMessage(),title:"Pedido GEboxing "+FOLIO});
@@ -2723,10 +2742,9 @@ async function sheetFiles(){refreshFinal();const n=(FOLIO||"pedido"),b1=await (a
   for(let i=0;i<STAMPURLS.length;i++){const b3=await (await fetch(STAMPURLS[i])).blob();out.push(new File([b3],n+"-estampado-"+STAMPS[i].label+".png",{type:"image/png"}));}return out;}
 function finStep(n){if(n===3)renderPay();if(n===4)renderRev();[1,2,3,4].forEach(k=>{const el=$("#finStep"+k);if(el)el.hidden=k!==n;});const ORD={1:1,3:2,4:3,2:4};document.querySelectorAll("#fSteps [data-fs]").forEach(e=>{const v=ORD[+e.dataset.fs];e.className=v<ORD[n]?"done":v===ORD[n]?"now":"";});$("#finModal").classList.toggle("s1",n===1);const mb=$("#finModal .modal-body");if(mb)mb.scrollTop=0;}
 function openFinal(){
-  if(bloqueado()){if(window.openWel)openWel(true);return;}
   if(!ORDER_DATE)ORDER_DATE=Date.now();
   if(window.stepDone)stepDone("comprar");
-  closeSheet();closeStamp();if(!FOLIO)newFolio();finStep(1);if($("#finModal").hidden){try{history.pushState({fin:1},"");}catch(_){}}$("#termErr").textContent="";$("#reqErr").textContent="";renderFinOz();{const cz=cerrada();$("#buyT1").textContent=cz?"Apartar mi lugar":"Comprar ahora";$("#buyT2").textContent=cz?"para el "+abreTxt()+" y enviar mis hojas":"y enviar mis hojas a GEboxing";const n=document.getElementById("finClosed");if(n){n.hidden=!cz;if(cz)n.innerHTML=`🔒 <b>Ventana de pedidos cerrada.</b> Tu pedido queda <b>apartado</b> y entra el <b>${abreTxt()}</b>. Las fechas de entrega ya cuentan desde ese día.`;}}$("#finModal").hidden=false;refreshFinal();
+  closeSheet();closeStamp();if(!FOLIO)newFolio();finStep(1);if($("#finModal").hidden){try{history.pushState({fin:1},"");}catch(_){}}$("#termErr").textContent="";$("#reqErr").textContent="";renderFinOz();{const cz=cerrada(),bl=bloqueado();$("#buyT1").textContent=bl?"Guardar mis hojas":(cz?"Apartar mi lugar":"Comprar ahora");$("#buyT2").textContent=bl?"para apartar lugar el "+abreTxt():(cz?"para el "+abreTxt()+" y enviar mis hojas":"y enviar mis hojas a GEboxing");document.getElementById("finHow").hidden=bl;const n=document.getElementById("finClosed");if(n){n.hidden=!cz;if(cz)n.innerHTML=bl?`🔒 <b>Pedidos cerrados por ahora.</b> Guarda tus hojas en la galería de tu celular y <b>mándalas por WhatsApp al 351 209 6269 a partir del ${abreTxt()}</b> para apartar tu lugar. Las fechas de entrega ya cuentan desde ese día.`:`🔒 <b>Ventana de pedidos cerrada.</b> Tu pedido queda <b>apartado</b> y entra el <b>${abreTxt()}</b>. Las fechas de entrega ya cuentan desde ese día.`;}}$("#finModal").hidden=false;refreshFinal();
   $("#finWa").textContent=WA?waPretty(WA):"(pronto publicaremos el número)";$("#finCopy").hidden=!WA;const l=waLink(WA);$("#finWaLink").hidden=!l;if(l)$("#finWaLink").href=l;}
 function closeFinal(){if($("#finModal").hidden)return;$("#finModal").hidden=true;try{if(history.state&&history.state.fin)history.back();}catch(_){}}
 window.addEventListener("popstate",()=>{if(!$("#finModal").hidden)$("#finModal").hidden=true;});
@@ -2857,7 +2875,7 @@ $("#presets").addEventListener("click",e=>{const b=e.target.closest("[data-pr]")
 renderPresets();
 renderFavs();
 /* barra fija: total y comprar diseño (abre Finalizar diseño) */
-function updBuybar(){const show=!document.getElementById("v-disenador").hidden;if(bloqueado()){const g=$("#bbGo");if(g&&!g.dataset.cz){g.dataset.cz=1;g.lastChild.textContent="🔒 Pedidos cerrados";g.setAttribute("aria-label","Pedidos cerrados: ver cuándo abrimos");}const fb=$("#finBtn");if(fb)fb.textContent="🔒 Pedidos cerrados · ver cuándo abrimos";const kb=document.getElementById("kBuy");if(kb)kb.textContent="🔒 Pedidos cerrados · ver cuándo abrimos";}$("#buybar").hidden=!show;document.body.classList.toggle("has-buybar",show);try{$("#bbTotal").textContent=money(price().total);}catch(e){}}
+function updBuybar(){const show=!document.getElementById("v-disenador").hidden;if(bloqueado()){const g=$("#bbGo");if(g&&!g.dataset.cz){g.dataset.cz=1;g.lastChild.textContent="Guardar mis hojas";g.setAttribute("aria-label","Guardar mis hojas para apartar lugar");}const fb=$("#finBtn");if(fb)fb.textContent="Guardar mis hojas para apartar lugar";const kb=document.getElementById("kBuy");if(kb)kb.textContent="Guardar mi hoja para apartar lugar el "+abreTxt();}$("#buybar").hidden=!show;document.body.classList.toggle("has-buybar",show);try{$("#bbTotal").textContent=money(price().total);}catch(e){}}
 $("#bbGo").addEventListener("click",()=>{typeKey(true);openFinal();});
 window.addEventListener("hashchange",updBuybar);
 model="";colors=null;loadModel("agujeta");
@@ -2879,7 +2897,7 @@ setTimeout(()=>{openOrderFromLink().catch(()=>{});},50);
     document.querySelector(".wel-live").innerHTML="<i></i>Aviso importante";document.querySelector(".wel-live").classList.add("closed");
     $("#welT").innerHTML="🔒 Pedidos <em>cerrados</em>";
     $("#welWk").innerHTML=`Ya llenamos los lugares de las próximas <b>${sm} semanas</b>. <b>Abrimos el ${at}</b> con <b>${nv} lugares</b>.`;
-    $("#welS").innerHTML=`<b>Puedes seguir diseñando tus guantes</b>, pero por ahora <b>no se pueden hacer pedidos</b>. Toma captura de tu diseño y pídelo en cuanto abramos.`;
+    $("#welS").innerHTML=`<b>Puedes seguir diseñando tus guantes</b> y <b>guardar tus hojas</b> en tu galería. Mándanoslas por WhatsApp el <b>${at}</b> para apartar tu lugar.`;
     $("#welBarTxt").textContent="Lugares llenos";document.querySelector(".wel-mini").hidden=true;$("#welCd").hidden=false;
     document.querySelector(".wel-date small").textContent="Si pides el día que abrimos, te llegan";
     $("#welDate").textContent=A.getMonth()===B.getMonth()?`del ${A.getDate()} al ${dm(B)}`:`del ${dm(A)} al ${dm(B)}`;
@@ -3095,7 +3113,7 @@ document.getElementById("v-concha").addEventListener("click",e=>{const t=e.targe
   else if(t.id==="kSpReset"){K.sp={dx:0,dy:0,s:1};hint("Nombre centrado otra vez.","good");}
   else if(t.id==="kTermsBtn"){openInfo();return;}
   else if(t.id==="kBuy"){kBuy();return;}
-  else if(t.id==="kPlanDl"){if(K._blob)dlBlob(K._blob,K._name);setTimeout(()=>{$k("kPlanWa").hidden=false;},800);return;}
+  else if(t.id==="kPlanDl"){if(t.dataset.cz&&K._blob){window.saveToGallery([new File([K._blob],K._name,{type:"image/png"})],dlBlob);return;}if(K._blob)dlBlob(K._blob,K._name);setTimeout(()=>{$k("kPlanWa").hidden=false;},800);return;}
   else return;
   kRender();});
 $k("kTxt").addEventListener("input",e=>{K.txt=e.target.value;if(K.txt)K.logo=null;clearTimeout(K._t);K._t=setTimeout(kRender,120);});
@@ -3148,7 +3166,7 @@ async function kSheet(folio){const W2=1080,pad=56,c=document.createElement("canv
   x.fillText("Vista previa: los tonos reales del cuero pueden variar ligeramente. Sin cambios ni devoluciones al confirmar.",pad,y);y+=34;
   if(typeof drawQR==="function"){x.save();x.textBaseline="top";y=drawQR(x,pad,y-14,W2-pad*2,font)+20;x.restore();}x.font=`700 21px ${font}`;x.fillStyle="#0b0b0b";x.fillText("WhatsApp oficial GEboxing: 351 209 6269",pad,y);y+=pad;
   const o=document.createElement("canvas");o.width=W2;o.height=y;o.getContext("2d").drawImage(c,0,0);return o;}
-async function kBuy(){if(bloqueado()){if(window.openWel)openWel(true);return;}const err=$k("kErr");err.textContent="";let first=null;
+async function kBuy(){const err=$k("kErr");err.textContent="";let first=null;
   if(!$k("kTerms").checked){$k("kTermsL").classList.add("bad");first=first||$k("kTermsL");}
   if(!K.pay){document.querySelector(".k-pay").classList.add("bad");first=first||document.querySelector(".k-pay");}
   const nx=K.xs.length,xbad=nx>0&&nx<KP.XMIN;if(xbad)first=first||$k("kXlist");
@@ -3160,6 +3178,11 @@ async function kBuy(){if(bloqueado()){if(window.openWel)openWel(true);return;}co
     const sh=await kSheet(folio),blob=await new Promise(r=>sh.toBlob(r,"image/png")),name="geboxing-concha-"+folio+".png",msg=kMsg(kPrice(),folio);
     K._blob=blob;K._name=name;const wa="https://wa.me/52"+String(SITE.whatsapp||"").replace(/\D/g,"")+"?text="+encodeURIComponent(msg);
     const files=[new File([blob],name,{type:"image/png"})];try{if(window.gbxSaveOrder)gbxSaveOrder({folio,kind:"Concha",files,text:msg,wa:msg});}catch(_){}
+    if(bloqueado()){$k("kPlan").hidden=false;$k("kPlanImg").src=URL.createObjectURL(blob);$k("kPlanWa").hidden=true;
+      $k("kPlan").querySelector("p").innerHTML=`<b>✓ Tu hoja está lista.</b> Guárdala en tu galería y <b>mándala por WhatsApp al 351 209 6269 a partir del ${abreTxt()}</b> para apartar tu lugar.`;
+      $k("kPlan").querySelector("ol").innerHTML=`<li>Toca <b>Guardar imagen</b> (en iPhone elige <b>"Guardar imagen"</b>), o mantén presionada la hoja.</li><li>El <b>${abreTxt()}</b> envíala con el clip 📎 → Galería, o vuelve a esta página y toca <b>"Enviar mis hojas"</b>.</li>`;
+      $k("kPlanDl").onclick=null;$k("kPlanDl").dataset.cz=1;window.saveToGallery(files,dlBlob);$k("kPlan").scrollIntoView({block:"start",behavior:"smooth"});
+      btn.disabled=false;btn.textContent="Guardar mi hoja para apartar lugar el "+abreTxt();return;}
     if(!IN_APP&&navigator.canShare&&navigator.canShare({files})){try{await navigator.share({files,text:msg});hint("✓ Listo. Envía el mensaje en WhatsApp.","good");btn.disabled=false;btn.textContent="Comprar ahora y enviar mi hoja a GEboxing";return;}catch(e){if(e&&e.name==="AbortError"){btn.disabled=false;btn.textContent="Comprar ahora y enviar mi hoja a GEboxing";return;}}}
     $k("kPlan").hidden=false;$k("kPlanImg").src=URL.createObjectURL(blob);$k("kPlanWa").href="https://wa.me/52"+String(SITE.whatsapp||"").replace(/\D/g,"")+"?text="+encodeURIComponent("Hola GEboxing, te envío la hoja de mi pedido de concha "+folio+" (la adjunto en imagen).");$k("kPlanWa").hidden=true;$k("kPlan").scrollIntoView({block:"start",behavior:"smooth"});
   }catch(e){err.textContent="No se pudo preparar tu pedido. Intenta de nuevo.";}
@@ -3296,9 +3319,12 @@ kRender();
     $r("rsImgs").innerHTML=urls.map((u,i)=>`<figure><img src="${u}" alt="${o.files[i].name}"><figcaption>${o.files[i].name}</figcaption></figure>`).join("");
     $r("rsWa").href="https://wa.me/"+waNum()+"?text="+encodeURIComponent("Hola GEboxing, te envío las hojas de mi pedido "+o.folio+" (las adjunto en imágenes).");$r("rsWa").hidden=true;}
   async function refresh(){L=await all();const b=$r("rsBar");if(!L.length){b.hidden=true;return;}
-    $r("rsFolio").textContent=L[0].folio;let hd=false;try{hd=sessionStorage.getItem("rsHide")==="1";}catch(e){}b.hidden=hd;
+    {const fe=$r("rsFolio");if(fe)fe.textContent=L[0].folio;}let hd=false;try{hd=sessionStorage.getItem("rsHide")==="1";}catch(e){}b.hidden=hd;if(BL()){b.firstElementChild.innerHTML=`🗂 Tus hojas del pedido <b>${L[0].folio}</b> están guardadas · envíalas el ${abreTxt()}`;$r("rsOpen").textContent="Ver mis hojas";}
     $r("rsSel").innerHTML=L.map(o=>`<option value="${o.folio}">${o.kind} · ${o.folio} · ${new Date(o.ts).toLocaleDateString("es-MX",{day:"numeric",month:"short"})}</option>`).join("");$r("rsSel").hidden=L.length<2;}
-  window.gbxOpenResend=async()=>{await refresh();if(!L.length)return;show(L[0]);$r("rsModal").hidden=false;};
+  const BL=()=>typeof bloqueado==="function"&&bloqueado();
+  window.gbxOpenResend=async()=>{await refresh();if(!L.length)return;show(L[0]);const bl=BL();$r("rsShare").hidden=bl;$r("rsT").textContent=bl?"Tus hojas guardadas":"Reenviar mi pedido";
+    $r("rsDl").textContent=bl?"Guardar mis hojas en la galería":"Guardar mis hojas en el celular";if(bl)$r("rsDl").onclick=()=>{if(cur)window.saveToGallery(cur.files.map(x=>new File([x.blob],x.name,{type:"image/png"})),(b,n)=>{const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=n;document.body.appendChild(a);a.click();a.remove();});};
+    $r("rsModal").hidden=false;};
   $r("rsOpen").onclick=window.gbxOpenResend;
   $r("rsHide").onclick=()=>{try{sessionStorage.setItem("rsHide","1");}catch(e){}$r("rsBar").hidden=true;};
   $r("rsClose").onclick=()=>{$r("rsModal").hidden=true;};
