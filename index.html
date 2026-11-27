@@ -6,6 +6,7 @@
 <meta name="description" content="Diseña tus guantes de box GEboxing: colores, peso, etiqueta y tu nombre o logo. Hechos a mano en México. Envío gratis a todo México.">
 <meta name="theme-color" content="#c8102e">
 <style>*,*::before,*::after{box-sizing:border-box}:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html,body{margin:0}body{font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<style id="capcss">.cap-toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:9995;width:min(520px,calc(100% - 32px));background:#1f7a45;color:#fff;border-radius:14px;padding:14px 40px 14px 16px;box-shadow:0 10px 30px rgba(0,0,0,.3);font-size:.98rem;line-height:1.35;cursor:pointer;animation:capin .35s ease}.cap-toast[hidden]{display:none}.cap-toast span{position:absolute;right:14px;top:10px;font-size:1.3rem}@keyframes capin{from{transform:translate(-50%,20px);opacity:0}to{transform:translate(-50%,0);opacity:1}}#priceLines li.cap{color:#1f7a45;font-weight:800}#priceLines li>span:last-child{white-space:nowrap;padding-left:8px}</style>
 <style id="savecss">.planb.saved{border-color:#1f7a45}.planb.saved h4{color:#1f7a45}</style>
 <style id="cdcss">.wel-cd{margin:12px 0 6px;padding:14px 10px;border-radius:14px;background:#141414;color:#fff;text-align:center}.wel-cd small{display:block;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;opacity:.85;margin-bottom:6px}.cd-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.cd-row span{display:flex;flex-direction:column;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;opacity:.95}.cd-row b{font-family:"Barlow Condensed","Anton",Impact,sans-serif;font-size:2.3rem;line-height:1;color:#ff3b55}</style>
 <style id="cerrcss">.cupo.closed{background:#141414;color:#fff;border-color:#141414}.cupo.closed b,.cupo.closed span{color:#fff}.wel-live.closed{background:#141414;color:#fff}.fin-closed{margin:8px 0;padding:12px 14px;border-radius:10px;background:#141414;color:#fff;font-size:.95rem;line-height:1.35}</style>
@@ -1184,7 +1185,7 @@ body.sheet-on .buybar{transform:translateY(115%)}
   </div>
 </div>
 
-<p class="ver" id="siteVer">Versión: 25 nov 2026 · 2:51 p. m.</p>
+<p class="ver" id="siteVer">Versión: 26 nov 2026 · 6:47 p. m.</p>
 <div class="buybar" id="buybar" hidden>
   <div class="buybar-in">
     <div class="bb-price"><small>Tu total</small><b id="bbTotal">$2,190</b><span class="bb-eta" id="bbEta"></span></div>
@@ -1749,11 +1750,13 @@ function drawStamp(){
 }
 const BASE=2190,VELCRO=150,STAMP=150;
 const money=n=>"$"+n.toLocaleString("es-MX");
-function price(){const v=model==="velcro"?VELCRO:0,s=(IMG||ORDER_LOGO)?STAMP:0,vals=ZONES.filter(z=>!z.label&&!z.only).map(z=>colors[z.id]);
+/* Tope: ningún par pasa de PRICE_CAP; si lo pasa queda en PRICE_CAP_TO con descuento de "seleccionado" */
+const PRICE_CAP=3200,PRICE_CAP_TO=3190;
+function price(){const v=model==="velcro"?VELCRO:0,s=(IMG||ORDER_LOGO)?STAMP:0,vals=ZONES.filter(z=>!z.label&&!z.only&&z.name!=="Ribetes").map(z=>colors[z.id]);
   const m=(vals.some(c=>isMetal(c)&&!isFloater(c))||(model==="agujeta"&&crossN&&crossCols.some(isMetalP)))?METAL_EXTRA:0,f=vals.some(c=>isFloater(c)||isPearl(c))?FLOATER_EXTRA:0;const w3=model==="agujeta"&&wristTriple?TRIPLE_EXTRA:0,cx=model==="agujeta"&&crossN?CROSS_EXTRA:0;
   const r=(typeof relleno==="string"&&RELLENOS[relleno])?RELLENOS[relleno].x:0;
   const vp=hasViper()?VIPER_EXTRA:0,cr=vals.some(isCroc)?CROC_EXTRA:0;
-  const fg=m&&f?f:0,raw=BASE+v+s+m+f+w3+cx+r+vp+cr-fg,total=down90(raw);return{total,v,s,m,f,fg,w3,cx,r,vp,cr,rd:raw-total};}
+  const fg=m&&f?f:0,raw=BASE+v+s+m+f+w3+cx+r+vp+cr-fg;let total=down90(raw),cap=0;if(total>PRICE_CAP){cap=raw-PRICE_CAP_TO;total=PRICE_CAP_TO;}return{total,v,s,m,f,fg,w3,cx,r,vp,cr,rd:cap?0:raw-total,cap};}
 /* el precio final siempre termina en 90: si no, se baja con un descuento para el cliente (nunca se sube) */
 function down90(raw){return raw%100===90?raw:Math.floor((raw-90)/100)*100+90;}
 function renderPrice(){const p=price();$("#priceNum").textContent=money(p.total);{const bb=document.getElementById("bbTotal");if(bb)bb.textContent=money(p.total);}
@@ -1767,7 +1770,14 @@ function renderPrice(){const p=price();$("#priceNum").textContent=money(p.total)
     (p.cx?`<li><span>Muñeca modelo Cruces (5 cruces)</span><span>+${money(p.cx)}</span></li>`:"")+
     (p.r?`<li><span>Relleno ${RELLENOS[relleno].name}</span><span>+${money(p.r)}</span></li>`:"")+
     (p.vp?`<li><span>Edición Fantasma Exótica (piel de pitón)</span><span>+${money(p.vp)}</span></li>`:"")+
-    (p.rd?`<li class="rd disc"><span>🎁 Descuento especial en este modelo</span><span>−${money(p.rd)}</span></li>`:"");}
+    (p.rd?`<li class="rd disc"><span>🎁 Descuento especial en este modelo</span><span>−${money(p.rd)}</span></li>`:"")+
+    (p.cap?`<li class="rd disc cap"><span>🎉 ¡Felicidades! Fuiste seleccionado para un descuento</span><span>−${money(p.cap)}</span></li>`:"");
+  capNotice(p);}
+function capNotice(p){let t=document.getElementById("capToast");if(!p.cap){if(t)t.hidden=true;window._capOn=false;return;}
+  if(window._capOn)return;window._capOn=true;
+  if(!t){t=document.createElement("div");t.id="capToast";t.className="cap-toast";t.setAttribute("role","status");document.body.appendChild(t);t.addEventListener("click",()=>{t.hidden=true;});}
+  t.innerHTML=`<b>🎉 ¡Felicidades!</b> Fuiste seleccionado para un descuento: tus guantes quedan en <b>${money(PRICE_CAP_TO)} MXN</b>.<span aria-hidden="true">×</span>`;t.hidden=false;
+  clearTimeout(t._h);t._h=setTimeout(()=>{t.hidden=true;},7000);}
 function summary(){cleanViper();try{ZONES.forEach(z=>{if((z.name==="Ribetes"||z.name==="Puño")&&isCroc(colors[z.id]))colors[z.id]="#111111";});}catch(e){}renderPrice();updEta();try{renderParts();}catch(e){}
   $("#sum").innerHTML=`<li><span class="dot" style="background:var(--accent)"></span><span>Peso</span><code>${typeof oz==="number"?oz:16} oz</code></li><li><span class="dot" style="background:var(--ink)"></span><span>Tipo</span><code>${typeof gtype==="string"?TYPES[gtype]:"Sparring"}</code></li><li><span class="dot" style="background:var(--ink)"></span><span>Relleno</span><code>${typeof relleno==="string"?RELLENOS[relleno].name:""}</code></li><li><span class="dot" style="background:var(--ink)"></span><span>Modelo</span><code>${M.name}</code></li>`+(model==="agujeta"?`<li><span class="dot" style="background:var(--ink)"></span><span>Forma de muñeca</span><code>${wristName()}${crossN?" · "+crossColorName():""}</code></li>`:"")+(IMG?`<li><span class="dot" style="background:var(--accent)"></span><span>Nombre o logo</span><code>${IMG.fname||"sí"}</code></li>`:"")+ZONES.map(z=>`<li><span class="dot" style="background:${z.label?(colors[z.id]==='negra'?'#111':'#fff'):swatchBg(colors[z.id])}"></span><span>${z.name}</span><code>${val(z)}</code></li>`).join("");
 }
@@ -2645,7 +2655,7 @@ function buildShipping(){
   x.fillStyle="#ffffff";const bh=(p.v?1:0)+(p.s?1:0)+(p.m?1:0)+(p.f?1:0)+(p.fg?1:0)+(p.w3?1:0)+(p.cx?1:0)+(p.r?1:0)+(p.vp?1:0)+(p.cr?1:0)+(p.rd?1:0)+(PAY==="mitad"?2:0);const boxH=150+bh*36;x.fillRect(pad,y,W2-pad*2,boxH);x.strokeStyle="#d3d1cc";x.lineWidth=2;x.strokeRect(pad,y,W2-pad*2,boxH);
   let by=y+24;x.font=`700 20px ${font}`;x.fillStyle="#c8102e";x.fillText("COSTO DE TU PEDIDO",pad+24,by);by+=40;
   const row=(a,b)=>{x.font=`500 24px ${font}`;x.fillStyle="#141414";x.fillText(a,pad+24,by);x.textAlign="right";x.fillText(b,W2-pad-24,by);x.textAlign="left";by+=36;};
-  row("Guantes de agujeta",money(BASE));if(p.v)row("Velcro premium","+"+money(p.v));if(p.s)row("Nombre o logo estampado","+"+money(p.s));if(p.m)row("Colores metálicos","+"+money(p.m));if(p.f)row("Cuero premium floater","+"+money(p.f));if(p.fg)row("Floater incluido por llevar metálico","−"+money(p.fg));if(p.cr)row("Charol con textura de cocodrilo","+"+money(p.cr));if(p.w3)row("Muñeca triple","+"+money(p.w3));if(p.cx)row("Muñeca modelo Cruces (5 cruces)","+"+money(p.cx));if(p.r)row("Relleno "+RELLENOS[relleno].name,"+"+money(p.r));if(p.vp)row("Edición Fantasma Exótica (piel de pitón)","+"+money(p.vp));if(p.rd)row("Descuento especial en este modelo","−"+money(p.rd));if(PAY==="mitad"){const[a1,a2]=halves();by+=4;row("Anticipo 50% para iniciar",money(a1));row("Resto al terminar",money(a2));}
+  row("Guantes de agujeta",money(BASE));if(p.v)row("Velcro premium","+"+money(p.v));if(p.s)row("Nombre o logo estampado","+"+money(p.s));if(p.m)row("Colores metálicos","+"+money(p.m));if(p.f)row("Cuero premium floater","+"+money(p.f));if(p.fg)row("Floater incluido por llevar metálico","−"+money(p.fg));if(p.cr)row("Charol con textura de cocodrilo","+"+money(p.cr));if(p.w3)row("Muñeca triple","+"+money(p.w3));if(p.cx)row("Muñeca modelo Cruces (5 cruces)","+"+money(p.cx));if(p.r)row("Relleno "+RELLENOS[relleno].name,"+"+money(p.r));if(p.vp)row("Edición Fantasma Exótica (piel de pitón)","+"+money(p.vp));if(p.rd)row("Descuento especial en este modelo","−"+money(p.rd));if(p.cap)row("¡Felicidades! Fuiste seleccionado para un descuento","−"+money(p.cap));if(PAY==="mitad"){const[a1,a2]=halves();by+=4;row("Anticipo 50% para iniciar",money(a1));row("Resto al terminar",money(a2));}
   x.font=`italic 800 38px ${disp}`;x.fillStyle="#c8102e";x.fillText("Total: "+money(p.total)+" MXN",pad+24,by+4);
   x.font=`700 20px ${font}`;x.fillStyle="#1f7a45";x.textAlign="right";x.fillText("Envío gratis a todo México",W2-pad-24,by+14);x.textAlign="left";
   y+=boxH+32;
