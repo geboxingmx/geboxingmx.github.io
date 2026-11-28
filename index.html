@@ -1187,7 +1187,7 @@ body.sheet-on .buybar{transform:translateY(115%)}
   </div>
 </div>
 
-<p class="ver" id="siteVer">Versión: 28 nov 2026 · 1:10 p. m.</p>
+<p class="ver" id="siteVer">Versión: 28 nov 2026 · 1:12 p. m.</p>
 <div class="buybar" id="buybar" hidden>
   <div class="buybar-in">
     <div class="bb-price"><small>Tu total</small><b id="bbTotal">$2,190</b><span class="bb-eta" id="bbEta"></span></div>
@@ -2543,6 +2543,11 @@ function etaText(){const d=delivery();return `${d.a} a ${d.b} días hábiles`;}
 const MESC=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
 function rangoLargo(a,b){const m=x=>x.toLocaleDateString("es-MX",{month:"long"});return a.getMonth()===b.getMonth()?`del ${a.getDate()} al ${b.getDate()} de ${m(b)}`:`del ${a.getDate()} de ${m(a)} al ${b.getDate()} de ${m(b)}`;}
 function rangoCorto(a,b){return a.getMonth()===b.getMonth()?`${a.getDate()}–${b.getDate()} ${MESC[b.getMonth()]}`:`${a.getDate()} ${MESC[a.getMonth()]}–${b.getDate()} ${MESC[b.getMonth()]}`;}
+/* franja verde grande con la fecha de llegada, para las hojas */
+function etaBanner(x,X,Y,Wd,A,B,n1,n2,font,disp,what){x.save();x.textBaseline="top";x.fillStyle="#1f7a45";x.fillRect(X,Y,Wd,118);
+  x.fillStyle="#ffffff";x.font=`800 21px ${font}`;x.fillText("🚚 "+(what||"TUS GUANTES LLEGAN A TU CASA"),X+22,Y+14);
+  let fs=50;const t=rangoLargo(A,B).toUpperCase();x.font=`800 ${fs}px ${disp}`;while(x.measureText(t).width>Wd-44&&fs>28){fs-=2;x.font=`800 ${fs}px ${disp}`;}x.fillText(t,X+22,Y+44);
+  x.font=`600 18px ${font}`;x.globalAlpha=.92;x.fillText("Fabricación a mano: "+n1+" a "+n2+" días hábiles (sin sábados ni domingos)",X+22,Y+44+fs+4);x.restore();return Y+118;}
 function etaBig(a,b,n1,n2,extra){return `<div class="eta-big"><small>🚚 Tus guantes llegan a tu casa</small><b>${rangoLargo(a,b)}</b><span>Fabricación a mano: ${n1} a ${n2} días hábiles (sin sábados ni domingos)${extra||""}</span></div>`;}
 function updEta(){const d=delivery();
   const pe=document.getElementById("priceEta");if(pe)pe.innerHTML=etaBig(d.from,d.to,d.a,d.b);
@@ -2620,10 +2625,7 @@ function buildSummary(){
   const d=ORDER_DATE?new Date(ORDER_DATE):new Date();x.textAlign="right";x.fillText(d.toLocaleDateString("es-MX",{day:"numeric",month:"long",year:"numeric"}),W2-pad,y+64);x.textAlign="left";
   y+=104;x.fillStyle="#c8102e";x.fillRect(pad,y,W2-pad*2,4);y+=18;
   {const d=delivery();x.font=`700 20px ${font}`;x.fillStyle="#141414";x.fillText("Folio "+FOLIO+"  ·  Pedido: "+sdate(d.hoy),pad,y);
-   y+=34;const bw=W2-pad*2;x.fillStyle="#1f7a45";x.fillRect(pad,y,bw,104);
-   x.fillStyle="#ffffff";x.font=`800 20px ${font}`;x.fillText("🚚 TUS GUANTES LLEGAN A TU CASA",pad+22,y+14);
-   x.font=`800 44px ${disp}`;x.fillText(rangoLargo(d.from,d.to).toUpperCase(),pad+22,y+42);
-   x.textAlign="right";x.font=`700 18px ${font}`;x.fillText(d.a+" a "+d.b+" días hábiles",W2-pad-22,y+16);x.textAlign="left";y+=104+24;}
+   y+=34;y=etaBanner(x,pad,y,W2-pad*2,d.from,d.to,d.a,d.b,font,disp)+24;}
   y=fichaTaller(x,pad,y,W2-pad*2,font,disp)+28;
   // guante
   const gw=W2-pad*2,gh=gw*CH/CW*.82,gx=pad+(gw-gh*CW/CH)/2;
@@ -2659,6 +2661,7 @@ function buildShipping(){
   let y=pad;const lw=sheetLogo(x,pad,y-4);
   x.font=`700 18px ${font}`;x.fillStyle="#5f5d58";x.fillText("HOJA 2  ·  COSTO, PAGO Y ENTREGA",pad+lw+24,y+64);x.textAlign="right";x.fillText("Folio "+FOLIO,W2-pad,y+64);x.textAlign="left";
   y+=104;x.fillStyle="#c8102e";x.fillRect(pad,y,W2-pad*2,4);y+=30;
+  {const d0=delivery();y=etaBanner(x,pad,y,W2-pad*2,d0.from,d0.to,d0.a,d0.b,font,disp)+24;}
   y=fichaTaller(x,pad,y,W2-pad*2,font,disp)+30;
   // costo
   // presupuesto
@@ -2673,7 +2676,7 @@ function buildShipping(){
   const box=(label,val,col)=>{x.fillStyle="#ffffff";x.fillRect(pad,y,W2-pad*2,96);x.strokeStyle="#d3d1cc";x.lineWidth=2;x.strokeRect(pad,y,W2-pad*2,96);
     x.font=`700 18px ${font}`;x.fillStyle="#5f5d58";x.fillText(label,pad+24,y+18);x.font=`italic 800 36px ${disp}`;x.fillStyle=col;x.fillText(val,pad+24,y+44);y+=112;};
   box("FECHA DEL PEDIDO",fdate(d.hoy),"#141414");
-  box("FECHA ESTIMADA DE ENTREGA ("+d.a+" A "+d.b+" DÍAS HÁBILES)",sdate(d.from)+" al "+sdate(d.to)+" de "+d.to.getFullYear(),d.st?"#9a6a00":"#1f7a45");
+  y=etaBanner(x,pad,y,W2-pad*2,d.from,d.to,d.a,d.b,font,disp,"FECHA ESTIMADA DE ENTREGA EN TU CASA")+16;
   x.font=`500 19px ${font}`;x.fillStyle="#5f5d58";
   wrapText(x,d.st?"Tu diseño lleva nombre o logo estampado, por eso el tiempo de fabricación es de 25 a 33 días hábiles (sin contar sábados ni domingos).":"Sin estampado: entrega rápida de 23 a 27 días hábiles (sin contar sábados ni domingos).",W2-pad*2).forEach(l=>{x.fillText(l,pad,y);y+=28;});y+=18;
   // cliente
@@ -3180,7 +3183,7 @@ async function kSheet(folio){const W2=1080,pad=56,c=document.createElement("canv
   const p=kPrice();x.font=`700 24px ${font}`;x.fillStyle="#c8102e";x.fillText("COSTO",pad,y);y+=40;
   [...$k("kSum").querySelectorAll("li")].forEach(li=>{const[a,b]=[...li.children].map(n=>n.textContent);x.font=`400 24px ${font}`;x.fillStyle="#0b0b0b";x.fillText(a,pad,y);x.textAlign="right";x.fillText(b,W2-pad,y);x.textAlign="left";y+=36;});
   x.font=`italic 900 46px ${font}`;x.fillStyle="#c8102e";x.fillText("Total: "+money(p.total)+" MXN",pad,y+20);x.font=`700 22px ${font}`;x.fillStyle="#1f7a45";x.textAlign="right";x.fillText("Envío gratis a todo México",W2-pad,y+16);x.textAlign="left";y+=70;
-  const e=kEta();x.font=`700 24px ${font}`;x.fillStyle="#1f7a45";x.fillText("Entrega estimada: "+e.txt,pad,y);y+=40;
+  const e=kEta();y=etaBanner(x,pad,y-20,W2-pad*2,e.A,e.B,e.a,e.b,font,(typeof disp!=="undefined"?disp:font),"TU CONCHA LLEGA A TU CASA")+36;
   x.font=`600 22px ${font}`;x.fillStyle="#0b0b0b";x.fillText("Pago: "+(K.pay==="msi"?"Meses sin intereses (Mercado Pago)":"50% para iniciar y 50% al terminar (transferencia)"),pad,y);y+=34;
   if(kv("k_nom")){x.fillText("Envío a: "+kv("k_nom")+" · "+kv("k_calle")+", Col. "+kv("k_col"),pad,y);y+=32;x.fillText("C.P. "+kv("k_cp")+", "+kv("k_cd")+", "+kv("k_edo")+" · Tel. "+kv("k_tel"),pad,y);y+=44;}else{x.fillText("Datos de envío: el cliente los manda por WhatsApp.",pad,y);y+=44;}
   x.font=`400 19px ${font}`;x.fillStyle="#5f5d58";x.fillText("Después de pagar, envía tu comprobante por WhatsApp y espera la confirmación del taller GEboxing.",pad,y);y+=28;
