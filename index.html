@@ -6,6 +6,7 @@
 <meta name="description" content="Diseña tus guantes de box GEboxing: colores, peso, etiqueta y tu nombre o logo. Hechos a mano en México. Envío gratis a todo México.">
 <meta name="theme-color" content="#c8102e">
 <style>*,*::before,*::after{box-sizing:border-box}:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html,body{margin:0}body{font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<style id="etacss">.eta-big{display:grid;gap:3px;margin:10px 0;padding:14px 16px;border-radius:12px;background:#1f7a45;color:#fff;text-align:left}.eta-big small{font-size:.78rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;opacity:.95}.eta-big b{font-family:"Barlow Condensed","Anton",Impact,sans-serif;font-size:1.75rem;line-height:1.05;text-transform:uppercase;letter-spacing:.01em}.eta-big span{font-size:.82rem;opacity:.92}.fin-eta .eta-big{margin:0 0 4px}.fin-eta:not(.slow){padding:0;border:0;background:none}.bb-eta{display:block!important;font-size:.78rem!important;font-weight:800;color:#1f7a45;white-space:nowrap}.bb-eta.slow{color:#1f7a45}@media (max-width:780px){.bb-price{display:flex;flex-direction:column;line-height:1.1}}</style>
 <style id="capcss">.cap-toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:9995;width:min(520px,calc(100% - 32px));background:#1f7a45;color:#fff;border-radius:14px;padding:14px 40px 14px 16px;box-shadow:0 10px 30px rgba(0,0,0,.3);font-size:.98rem;line-height:1.35;cursor:pointer;animation:capin .35s ease}.cap-toast[hidden]{display:none}.cap-toast span{position:absolute;right:14px;top:10px;font-size:1.3rem}@keyframes capin{from{transform:translate(-50%,20px);opacity:0}to{transform:translate(-50%,0);opacity:1}}#priceLines li.cap{color:#1f7a45;font-weight:800}#priceLines li>span:last-child{white-space:nowrap;padding-left:8px}</style>
 <style id="savecss">.planb.saved{border-color:#1f7a45}.planb.saved h4{color:#1f7a45}</style>
 <style id="cdcss">.wel-cd{margin:12px 0 6px;padding:14px 10px;border-radius:14px;background:#141414;color:#fff;text-align:center}.wel-cd small{display:block;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;opacity:.85;margin-bottom:6px}.cd-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.cd-row span{display:flex;flex-direction:column;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;opacity:.95}.cd-row b{font-family:"Barlow Condensed","Anton",Impact,sans-serif;font-size:2.3rem;line-height:1;color:#ff3b55}</style>
@@ -1123,6 +1124,7 @@ body.sheet-on .buybar{transform:translateY(115%)}
       <div class="fin-step" id="finStep4" hidden>
       <button type="button" class="fin-backtop" data-fgo="3">‹ Atrás</button>
       <p class="fin-big">¡Último paso! Envía tu pedido por WhatsApp.</p>
+      <div id="finEta4"></div>
       <ul class="fin-rev" id="finRev"></ul>
       <p class="fin-closed" id="finClosed" hidden></p>
       <ol class="fin-how" id="finHow"><li>Toca el botón verde: <b>tus hojas ya van adjuntas</b>.</li><li>Elige <b>WhatsApp</b> y el chat de <b>GEboxing</b>.</li><li>Toca <b>Enviar</b>. Después te pedimos tus datos de envío.</li></ol>
@@ -1185,7 +1187,7 @@ body.sheet-on .buybar{transform:translateY(115%)}
   </div>
 </div>
 
-<p class="ver" id="siteVer">Versión: 26 nov 2026 · 6:49 p. m.</p>
+<p class="ver" id="siteVer">Versión: 28 nov 2026 · 1:10 p. m.</p>
 <div class="buybar" id="buybar" hidden>
   <div class="buybar-in">
     <div class="bb-price"><small>Tu total</small><b id="bbTotal">$2,190</b><span class="bb-eta" id="bbEta"></span></div>
@@ -2537,9 +2539,14 @@ function baseDate(){const c=cerrada();if(!c)return new Date();const d=new Date(c
 function abreTxt(){const c=cerrada();return c?c.toLocaleDateString("es-MX",{weekday:"long",day:"numeric",month:"long"}).replace(",",""):"";}
 function delivery(){const st=!!IMG||!!ORDER_LOGO,X=+(SITE.esperaExtra||0),a=(st?16:14)+X,b=(st?24:18)+X,hoy=ORDER_DATE?new Date(ORDER_DATE):new Date(),f=n=>{const c=cerrada(),d=new Date(c&&hoy<c?baseDate():hoy);let k=0;while(k<n){d.setDate(d.getDate()+1);const w=d.getDay();if(w!==0&&w!==6)k++;}return d;};return{st,a,b,hoy,from:f(a),to:f(b)};}
 function etaText(){const d=delivery();return `${d.a} a ${d.b} días hábiles`;}
+/* fecha de llegada en grande: "del 13 al 19 de enero" / corta "13–19 ene" */
+const MESC=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+function rangoLargo(a,b){const m=x=>x.toLocaleDateString("es-MX",{month:"long"});return a.getMonth()===b.getMonth()?`del ${a.getDate()} al ${b.getDate()} de ${m(b)}`:`del ${a.getDate()} de ${m(a)} al ${b.getDate()} de ${m(b)}`;}
+function rangoCorto(a,b){return a.getMonth()===b.getMonth()?`${a.getDate()}–${b.getDate()} ${MESC[b.getMonth()]}`:`${a.getDate()} ${MESC[a.getMonth()]}–${b.getDate()} ${MESC[b.getMonth()]}`;}
+function etaBig(a,b,n1,n2,extra){return `<div class="eta-big"><small>🚚 Tus guantes llegan a tu casa</small><b>${rangoLargo(a,b)}</b><span>Fabricación a mano: ${n1} a ${n2} días hábiles (sin sábados ni domingos)${extra||""}</span></div>`;}
 function updEta(){const d=delivery();
-  const pe=document.getElementById("priceEta");if(pe)pe.innerHTML=`Entrega estimada: <b>${d.a} a ${d.b} días hábiles</b>`+(d.st?"":`<span class="fast">Entrega rápida</span>`);
-  const be=document.getElementById("bbEta");if(be){be.textContent="Entrega "+d.a+"–"+d.b+" días hábiles";be.classList.toggle("slow",d.st);}}
+  const pe=document.getElementById("priceEta");if(pe)pe.innerHTML=etaBig(d.from,d.to,d.a,d.b);
+  const be=document.getElementById("bbEta");if(be){be.textContent="🚚 Llegan "+rangoCorto(d.from,d.to);be.classList.toggle("slow",d.st);}}
 let FOLIO="",ORDER_DATE=0,ORDER_LOGO="";
 function newFolio(){const d=new Date(),p=n=>String(n).padStart(2,"0");FOLIO="GEB-"+String(d.getFullYear()).slice(2)+p(d.getMonth()+1)+p(d.getDate())+"-"+Math.floor(1000+Math.random()*9000);}
 /* Los datos de envío ya no se piden en la página: el cliente los manda por WhatsApp después de comprar. */
@@ -2613,7 +2620,10 @@ function buildSummary(){
   const d=ORDER_DATE?new Date(ORDER_DATE):new Date();x.textAlign="right";x.fillText(d.toLocaleDateString("es-MX",{day:"numeric",month:"long",year:"numeric"}),W2-pad,y+64);x.textAlign="left";
   y+=104;x.fillStyle="#c8102e";x.fillRect(pad,y,W2-pad*2,4);y+=18;
   {const d=delivery();x.font=`700 20px ${font}`;x.fillStyle="#141414";x.fillText("Folio "+FOLIO+"  ·  Pedido: "+sdate(d.hoy),pad,y);
-   y+=30;x.fillStyle=d.st?"#9a6a00":"#1f7a45";x.fillText("Entrega estimada: "+sdate(d.from)+" – "+sdate(d.to),pad,y);y+=40;}
+   y+=34;const bw=W2-pad*2;x.fillStyle="#1f7a45";x.fillRect(pad,y,bw,104);
+   x.fillStyle="#ffffff";x.font=`800 20px ${font}`;x.fillText("🚚 TUS GUANTES LLEGAN A TU CASA",pad+22,y+14);
+   x.font=`800 44px ${disp}`;x.fillText(rangoLargo(d.from,d.to).toUpperCase(),pad+22,y+42);
+   x.textAlign="right";x.font=`700 18px ${font}`;x.fillText(d.a+" a "+d.b+" días hábiles",W2-pad-22,y+16);x.textAlign="left";y+=104+24;}
   y=fichaTaller(x,pad,y,W2-pad*2,font,disp)+28;
   // guante
   const gw=W2-pad*2,gh=gw*CH/CW*.82,gx=pad+(gw-gh*CW/CH)/2;
@@ -2678,8 +2688,9 @@ function buildShipping(){
   y+=pad-10;const out=document.createElement("canvas");out.width=W2;out.height=Math.ceil(y);out.getContext("2d").drawImage(c,0,0);return out;}
 let finT=null,finURL="",finURL2="";
 function renderFinEta(){const d=delivery(),e=$("#finEta");e.classList.toggle("slow",d.st);
-  e.innerHTML=d.st?`<b>⏱ Entrega estimada: ${d.a} a ${d.b} días hábiles</b><span>Tu diseño lleva nombre o logo estampado. ¿Lo quieres más rápido? <b>Sin estampado te llega en 23 a 27 días hábiles</b> y ahorras ${money(STAMP)}.</span><button type="button" class="act sm" id="finNoStamp">Quitar nombre o logo y recibir más rápido</button>`
-    :`<b>⚡ Entrega rápida: ${d.a} a ${d.b} días hábiles</b><span>Llega entre el ${sdate(d.from)} y el ${sdate(d.to)}.</span>`;}
+  {const e4=document.getElementById("finEta4");if(e4)e4.innerHTML=etaBig(d.from,d.to,d.a,d.b);}
+  e.innerHTML=etaBig(d.from,d.to,d.a,d.b)+(d.st?`<span>Tu diseño lleva nombre o logo estampado. ¿Lo quieres más rápido? <b>Sin estampado te llega en 23 a 27 días hábiles</b> y ahorras ${money(STAMP)}.</span><button type="button" class="act sm" id="finNoStamp">Quitar nombre o logo y recibir más rápido</button>`
+    :"");e.hidden=false;}
 /* archivo del estampado para imprimir (DTF / vinil textil): PNG sin fondo en alta resolución */
 function txtCanvas(L){const f=FONTS.find(x=>x.id===txt.f),px=480,SX=f.id==="firma"||f.id==="gotica"||f.id==="pirata"?.86:.8,SY=(txt.tall||125)/100;
   const c=document.createElement("canvas"),x=c.getContext("2d");x.font=`${f.w||400} ${px}px ${f.css}`;
@@ -3008,8 +3019,8 @@ const vals=()=>K.one?[K.L]:[K.L,K.R];
 function kPrice(){const v=vals(),m=v.some(isMetalP)?METAL_EXTRA:0,f=v.some(c=>isFloater(c)||isPearl(c))?FLOATER_EXTRA:0,cr=v.some(isCroc)?CROC_EXTRA:0,
   ve=K.cie==="velcro"?KP.VEL:0,st=(K.txt.trim()||K.logo)?KP.STAMP:0,x=K.xs.length*KP.CROSS,fg=m&&f?f:0,raw=-fg+KP.BASE+m+f+cr+ve+st+x,total=down90(raw);
   return{m,f,fg,cr,ve,st,x,rd:raw-total,total};}
-function kEta(){const st=!!(K.txt.trim()||K.logo),X=+(SITE.esperaExtra||0),a=(st?16:14)+X,b=(st?24:18)+X,f=n=>{const d=window.baseDate?baseDate():new Date();let k=0;while(k<n){d.setDate(d.getDate()+1);const w=d.getDay();if(w!==0&&w!==6)k++;}return d;};
-  const o={day:"numeric",month:"long"};return{st,a,b,txt:f(a).toLocaleDateString("es-MX",o)+" al "+f(b).toLocaleDateString("es-MX",o)};}
+function kEta(){const st=!!(K.txt.trim()||K.logo),X=+(SITE.esperaExtra||0),a=(st?16:14)+X,b=(st?24:18)+X,f=n=>{const d=(typeof baseDate==="function")?baseDate():new Date();let k=0;while(k<n){d.setDate(d.getDate()+1);const w=d.getDay();if(w!==0&&w!==6)k++;}return d;};
+  const o={day:"numeric",month:"long"},A=f(a),B=f(b);return{st,a,b,A,B,txt:A.toLocaleDateString("es-MX",o)+" al "+B.toLocaleDateString("es-MX",o)};}
 const tfill=c=>METAL_TXT[c]?"url(#kT_"+c+")":c;
 function kDefs(){const pats=["L","R"].map(s=>{const c=kc(s);return `<linearGradient id="kMet${s}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".3" stop-color="#fff" stop-opacity="0"/><stop offset=".52" stop-color="#fff" stop-opacity=".45"/><stop offset=".7" stop-color="#000" stop-opacity=".1"/><stop offset="1" stop-color="#000" stop-opacity=".45"/></linearGradient>`;}).join("");
   return `<defs><clipPath id="kClip"><path d="${KBODY}"/></clipPath>${pats}
@@ -3092,7 +3103,7 @@ function kRender(){kFixStamp();if(!K.pn){K.txt="";K.logo=null;}if(!K.px){K.xs=[]
   if(p.ve)L.push(["Cierre de velcro premium","+"+money(p.ve)]);if(p.st)L.push([K.logo?"Logo":"Nombre","+"+money(p.st)]);if(p.x)L.push([`Cruces (${K.xs.length} × $20)`,"+"+money(p.x)]);
   if(p.rd)L.push(["🎁 Descuento especial en este modelo","−"+money(p.rd)]);
   $k("kSum").innerHTML=L.map(([a,b])=>`<li><span>${a}</span><span>${b}</span></li>`).join("");$k("kTot").textContent=money(p.total);$k("kTotTop").textContent=money(p.total);
-  const e=kEta();$k("kEta").textContent=`Entrega estimada: ${e.txt} (${e.a} a ${e.b} días hábiles). Envío gratis a todo México.`;
+  const e=kEta();$k("kEta").innerHTML=etaBig(e.A,e.B,e.a,e.b," · envío gratis").replace("Tus guantes llegan","Tu concha llega");
   kSave();if(window.kManiSoon)window.kManiSoon();}
 function kPt(e){const s=$k("kSvg"),r=s.getBoundingClientRect(),vb={w:800,h:860},sc=Math.min(r.width/vb.w,r.height/vb.h),ox=(r.width-vb.w*sc)/2,oy=(r.height-vb.h*sc)/2;return{x:(e.clientX-r.left-ox)/sc,y:(e.clientY-r.top-oy)/sc};}
 function kFits(x,y){const s=$k("kSvg"),P=s.createSVGPoint(),B=$k("kBodyHit"),A=$k("kAreaHit");
